@@ -197,7 +197,7 @@ return {
 
   -- Mason - Automatic LSP/DAP/Linter/Formatter installation
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
@@ -288,62 +288,21 @@ return {
     end,
   },
 
-  -- Formatting
+  -- Formatting (disabled)
   {
     "stevearc/conform.nvim",
     opts = {
-      formatters_by_ft = {
-        go = { "gofumpt", "goimports", "golines" },
-        javascript = { { "prettierd", "prettier" }, { "eslint_d", "eslint" } },
-        javascriptreact = { { "prettierd", "prettier" }, { "eslint_d", "eslint" } },
-        typescript = { { "prettierd", "prettier" }, { "eslint_d", "eslint" } },
-        typescriptreact = { { "prettierd", "prettier" }, { "eslint_d", "eslint" } },
-        python = { "ruff_format", "black", "isort" },
-        yaml = { "prettier" },
-        terraform = { "terraform_fmt" },
-        tf = { "terraform_fmt" },
-        bash = { "shfmt" },
-        sh = { "shfmt" },
-        nix = { "alejandra" },
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        qml = { "qmlformat" },
-        nim = { "nimpretty" },
-        lua = { "stylua" },
-        json = { "prettier" },
-        jsonc = { "prettier" },
-        markdown = { "prettier" },
-      },
-      formatters = {
-        shfmt = {
-          prepend_args = { "-i", "2" },
-        },
-        golines = {
-          prepend_args = { "-m", "120" },
-        },
-      },
+      formatters_by_ft = {},
+      format_on_save = false,
+      format_after_save = false,
     },
   },
 
-  -- Linting
+  -- Linting (disabled)
   {
     "mfussenegger/nvim-lint",
     opts = {
-      linters_by_ft = {
-        go = { "golangcilint" },
-        javascript = { "eslint_d" },
-        javascriptreact = { "eslint_d" },
-        typescript = { "eslint_d" },
-        typescriptreact = { "eslint_d" },
-        python = { "ruff" },
-        yaml = { "yamllint" },
-        ansible = { "ansible_lint" },
-        terraform = { "tflint" },
-        bash = { "shellcheck" },
-        sh = { "shellcheck" },
-        c = { "cpplint" },
-        cpp = { "cpplint" },
-      },
+      linters_by_ft = {},
     },
   },
 

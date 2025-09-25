@@ -166,11 +166,3 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Auto-format on save for specific filetypes
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup("auto_format"),
-  pattern = { "*.go", "*.py", "*.ts", "*.tsx", "*.js", "*.jsx", "*.tf", "*.nix", "*.c", "*.cpp", "*.h", "*.hpp" },
-  callback = function()
-    vim.lsp.buf.format({ async = false })
-  end,
-})
