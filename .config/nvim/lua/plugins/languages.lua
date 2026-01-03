@@ -61,8 +61,8 @@ return {
           cmd = { "qmlls" },
         },
 
-        -- Nim
-        nimls = {},
+        -- Nim (disabled - nimls not available via mason)
+        -- nimls = {},
       },
     },
   },
@@ -96,11 +96,21 @@ return {
   },
 
   -- Treesitter - Syntax highlighting and code understanding
+  -- Pin to version 0.9.2 for compatibility with old config style
   {
     "nvim-treesitter/nvim-treesitter",
+    version = "0.9.2",
+    build = ":TSUpdate",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
+        "lua",
+        "vim",
+        "vimdoc",
+        "query",
+        "c",
+        "markdown",
+        "markdown_inline",
         "go",
         "gomod",
         "gowork",
@@ -116,7 +126,6 @@ return {
         "terraform",
         "bash",
         "nix",
-        "c",
         "cpp",
         "cmake",
         "qmljs",
@@ -125,10 +134,7 @@ return {
         "regex",
         "json",
         "json5",
-        "jsonc",
         "toml",
-        "markdown",
-        "markdown_inline",
         "dockerfile",
         "gitignore",
         "git_config",
@@ -139,11 +145,34 @@ return {
     end,
   },
 
-  -- Formatting (disabled)
+  -- Formatting (disabled for all filetypes)
   {
     "stevearc/conform.nvim",
     opts = {
-      formatters_by_ft = {},
+      -- Explicitly disable formatters for all common filetypes
+      formatters_by_ft = {
+        ["*"] = {},
+        sh = {},
+        bash = {},
+        zsh = {},
+        go = {},
+        python = {},
+        javascript = {},
+        typescript = {},
+        javascriptreact = {},
+        typescriptreact = {},
+        lua = {},
+        json = {},
+        yaml = {},
+        markdown = {},
+        html = {},
+        css = {},
+        terraform = {},
+        hcl = {},
+        nix = {},
+        c = {},
+        cpp = {},
+      },
       format_on_save = false,
       format_after_save = false,
     },
@@ -362,26 +391,6 @@ return {
     end,
   },
 
-  -- JavaScript/TypeScript debugging
-  {
-    "mxsdev/nvim-dap-vscode-js",
-    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      {
-        "microsoft/vscode-js-debug",
-        opt = true,
-        build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-      },
-    },
-    config = function()
-      require("dap-vscode-js").setup({
-        debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
-        adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
-      })
-    end,
-  },
-
   -- Test runners
   {
     "nvim-neotest/neotest",
@@ -393,7 +402,6 @@ return {
       "nvim-neotest/neotest-python",
       "nvim-neotest/neotest-jest",
       "rouge8/neotest-rust",
-      "rcasia/neotest-bash",
     },
     config = function()
       require("neotest").setup({
@@ -401,7 +409,6 @@ return {
           require("neotest-golang"),
           require("neotest-python"),
           require("neotest-jest"),
-          require("neotest-bash"),
         },
       })
     end,
