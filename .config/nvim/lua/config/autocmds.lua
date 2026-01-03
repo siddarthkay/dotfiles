@@ -166,12 +166,4 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Disable autoformat for YAML files
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("disable_yaml_autoformat"),
-  pattern = { "yaml", "yml", "yaml.ansible" },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
 

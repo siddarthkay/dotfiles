@@ -1,92 +1,9 @@
 return {
-  -- LSP Configuration
+  -- LSP Configuration (only for servers not handled by LazyVim extras)
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- Go
-        gopls = {
-          settings = {
-            gopls = {
-              gofumpt = true,
-              codelenses = {
-                gc_details = false,
-                generate = true,
-                regenerate_cgo = true,
-                run_govulncheck = true,
-                test = true,
-                tidy = true,
-                upgrade_dependency = true,
-                vendor = true,
-              },
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
-              analyses = {
-                fieldalignment = true,
-                nilness = true,
-                unusedparams = true,
-                unusedwrite = true,
-                useany = true,
-              },
-              usePlaceholders = true,
-              completeUnimported = true,
-              staticcheck = true,
-              directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-              semanticTokens = true,
-            },
-          },
-        },
-        
-        -- TypeScript/JavaScript/React Native
-        tsserver = {
-          settings = {
-            typescript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-            javascript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-          },
-        },
-        
-        -- Python
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                diagnosticMode = "workspace",
-                useLibraryCodeForTypes = true,
-                typeCheckingMode = "standard",
-              },
-            },
-          },
-        },
-        ruff_lsp = {},
-        
         -- Ansible
         ansiblels = {
           settings = {
@@ -110,23 +27,12 @@ return {
             },
           },
         },
-        
+
         -- Groovy
         groovyls = {
           cmd = { "groovy-language-server" },
         },
-        
-        -- Terraform
-        terraformls = {
-          settings = {
-            terraform = {
-              codelens = {
-                references = true,
-              },
-            },
-          },
-        },
-        
+
         -- Bash
         bashls = {
           settings = {
@@ -138,91 +44,45 @@ return {
 
         -- YAML - completely disable yamlls
         yamlls = false,
-        
+
         -- Nix
         nil_ls = {
           settings = {
             ["nil"] = {
               formatting = {
-                command = { "" },  -- Disabled formatting
+                command = { "" }, -- Disabled formatting
               },
             },
           },
         },
-        
-        -- C/C++ for Qt
-        clangd = {
-          keys = {
-            { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
-          },
-          root_dir = function(fname)
-            return require("lspconfig.util").root_pattern(
-              "Makefile",
-              "configure.ac",
-              "configure.in",
-              "config.h.in",
-              "meson.build",
-              "meson_options.txt",
-              "build.ninja"
-            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
-              fname
-            ) or require("lspconfig.util").find_git_ancestor(fname)
-          end,
-          capabilities = {
-            offsetEncoding = { "utf-16" },
-          },
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--header-insertion=iwyu",
-            "--completion-style=detailed",
-            "--function-arg-placeholders",
-            "--fallback-style=llvm",
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        },
-        
+
         -- QML
         qmlls = {
           cmd = { "qmlls" },
         },
-        
+
         -- Nim
         nimls = {},
       },
     },
   },
 
-  -- Mason - Automatic LSP/DAP/Linter/Formatter installation
+  -- Mason - Automatic LSP/DAP/Linter installation (removed unused formatters)
   {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, {
-        -- LSP servers
-        "gopls",
-        "typescript-language-server",
-        "eslint-lsp",
-        "pyright",
-        "ruff-lsp",
+        -- LSP servers (not handled by LazyVim extras)
         "ansible-language-server",
-        "terraform-ls",
-        "tflint",
         "bash-language-server",
-        "nil",
-        "clangd",
-        
+
         -- DAP
         "delve", -- Go debugger
         "debugpy", -- Python debugger
         "js-debug-adapter", -- JavaScript/TypeScript debugger
         "codelldb", -- C/C++ debugger
-        
+
         -- Linters
         "golangci-lint",
         "eslint_d",
@@ -231,18 +91,6 @@ return {
         "shellcheck",
         "tflint",
         "cpplint",
-        
-        -- Formatters
-        "gofumpt",
-        "goimports",
-        "golines",
-        "prettier",
-        "black",
-        "isort",
-        "shfmt",
-        "alejandra",
-        "clang-format",
-        "stylua",
       })
     end,
   },
@@ -309,7 +157,7 @@ return {
     },
   },
 
-  -- Go enhanced development
+  -- Go enhanced development (LSP handled by LazyVim extra)
   {
     "ray-x/go.nvim",
     dependencies = {
@@ -324,20 +172,14 @@ return {
         tag_transform = false,
         test_dir = "",
         comment_placeholder = "",
-        lsp_cfg = true,
-        lsp_gofumpt = true,
-        lsp_on_attach = true,
-        lsp_keymaps = true,
+        lsp_cfg = false, -- Let LazyVim extra handle gopls
+        lsp_gofumpt = false,
+        lsp_on_attach = false,
+        lsp_keymaps = false,
         lsp_codelens = true,
-        lsp_diag_hdlr = true,
+        lsp_diag_hdlr = false,
         lsp_inlay_hints = {
-          enable = true,
-          only_current_line = false,
-          only_current_line_autocmd = "CursorHold",
-          show_variable_name = true,
-          parameter_hints_prefix = " ",
-          show_parameter_hints = true,
-          other_hints_prefix = "=> ",
+          enable = false, -- LazyVim handles this
         },
         dap_debug = true,
         dap_debug_keymap = true,
@@ -355,7 +197,7 @@ return {
     build = ':lua require("go.install").update_all_sync()',
   },
 
-  -- TypeScript enhanced development
+  -- TypeScript enhanced development (replaces tsserver)
   {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -450,7 +292,7 @@ return {
       })
     end,
     ft = "python",
-    keys = { 
+    keys = {
       { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" },
       { "<leader>pv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv", ft = "python" },
     },
@@ -462,7 +304,7 @@ return {
     ft = { "yaml.ansible", "ansible", "ansible_hosts" },
   },
 
-  -- Terraform
+  -- Terraform (format on save disabled)
   {
     "hashivim/vim-terraform",
     ft = { "terraform", "hcl", "tf" },
