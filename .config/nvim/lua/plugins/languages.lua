@@ -135,13 +135,16 @@ return {
             },
           },
         },
+
+        -- YAML - completely disable yamlls
+        yamlls = false,
         
         -- Nix
         nil_ls = {
           settings = {
             ["nil"] = {
               formatting = {
-                command = { "alejandra" },
+                command = { "" },  -- Disabled formatting
               },
             },
           },
@@ -464,7 +467,7 @@ return {
     "hashivim/vim-terraform",
     ft = { "terraform", "hcl", "tf" },
     config = function()
-      vim.g.terraform_fmt_on_save = 1
+      vim.g.terraform_fmt_on_save = 0
       vim.g.terraform_align = 1
     end,
   },

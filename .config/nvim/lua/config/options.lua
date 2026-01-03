@@ -4,6 +4,9 @@
 
 local opt = vim.opt
 
+-- Disable autoformat on save globally (LazyVim feature)
+vim.g.autoformat = false
+
 -- General settings
 opt.swapfile = false
 opt.backup = false
