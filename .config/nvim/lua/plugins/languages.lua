@@ -18,9 +18,9 @@ return {
                 interpreterPath = "python",
               },
               validation = {
-                enabled = true,
+                enabled = false,
                 lint = {
-                  enabled = true,
+                  enabled = false,
                   path = "ansible-lint",
                 },
               },
