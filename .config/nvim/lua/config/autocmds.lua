@@ -86,7 +86,14 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Ansible specific settings
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = augroup("ansible_detection"),
-  pattern = { "*/playbooks/*.yml", "*/playbooks/*.yaml", "*/roles/*/tasks/*.yml", "*/roles/*/tasks/*.yaml", "*/ansible/*.yml", "*/ansible/*.yaml" },
+  pattern = {
+    "*/playbooks/*.yml", "*/playbooks/*.yaml",
+    "*/playbooks/**/*.yml", "*/playbooks/**/*.yaml",
+    "*/roles/*/tasks/*.yml", "*/roles/*/tasks/*.yaml",
+    "*/roles/**/*.yml", "*/roles/**/*.yaml",
+    "*/ansible/*.yml", "*/ansible/*.yaml",
+    "*/ansible/**/*.yml", "*/ansible/**/*.yaml",
+  },
   callback = function()
     vim.bo.filetype = "yaml.ansible"
   end,
